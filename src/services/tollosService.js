@@ -1,7 +1,7 @@
 import puppeteer from 'puppeteer'
 import cheerio   from 'cheerio'
 
-const login = async (url, username, password) => {
+const getTollosData = async (url, username, password) => {
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
     await page.goto(url);
@@ -59,14 +59,17 @@ const login = async (url, username, password) => {
 
     let array = [] 
 
-    await jsonObj.forEach(async (element) => {
-        const data = await getPage(url+element.Turnos, cookies)
-        element.Turnos = data
-
-        array.push(element)
-
-       // console.log(array)
-    });
+    for(let i = 0; i < jsonObj.length; i++) {
+        const dataTurnos = await getPage(url+jsonObj[i].Turnos, cookies)
+        jsonObj[i].Turnos = dataTurnos
+        const dataEstado = await getPage(url+jsonObj[i].Estado, cookies)
+        jsonObj[i].Estado = dataEstado
+        const dataCaudal = await getPage(url+jsonObj[i]['Inf.Caudal'], cookies)
+        jsonObj[i]['Inf.Caudal'] = dataCaudal
+        const dataLocal = await getPage(url+jsonObj[i]['Localización'], cookies)
+        jsonObj[i]['Localización'] = dataLocal
+        array.push(jsonObj[i])
+    }
 
     return array
 }
@@ -107,4 +110,4 @@ function tableToJson(html) {
     return data;
 }
 
-export { login }
+export { getTollosData }

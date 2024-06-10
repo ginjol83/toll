@@ -1,9 +1,9 @@
-import { login } from "./src/services/loginService.js";
+import { getTollosData } from "./src/services/tollosService.js";
 import { config } from "./src/config/config.js";
 
-const log = login(config.url, config.user, config.pass);
+const app = getTollosData(config.url, config.user, config.pass);
 
-log.then((data) => {    
+app.then((data) => {    
     console.log(data)
 }).catch((err) => {
     console.log(err)
