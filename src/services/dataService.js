@@ -1,4 +1,5 @@
 import puppeteer from 'puppeteer'
+import axios from 'axios';
 
 const dataScrapp = async (jsonData, config) => {
 
